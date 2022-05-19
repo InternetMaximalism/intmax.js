@@ -1,0 +1,28 @@
+{
+  "name": "intmax",
+  "version": "0.1.0",
+  "description": "Intmax js client library",
+  "main": "index.js",
+  "repository": "git@github.com:InternetMaximalism/intmax.js.git",
+  "author": "Kazuki Kasahara <nuderebatsin.roal@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "intmax",
+    "js",
+    "blockchain",
+    "crypto",
+    "zk",
+    "layer2"
+  ],
+  "bugs": {
+    "url": "https://github.com/InternetMaximalism/intmax.js/issues"
+  },
+  "homepage": "https://github.com/InternetMaximalism/intmax.js#readme",
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "compile": "tsc -p ./tsconfig.json",
+    "dev": "yarn compile -w"
+  }
+}

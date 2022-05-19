@@ -26,6 +26,7 @@
   },
   "scripts": {
     "compile": "tsc -p ./tsconfig.json",
+    "build": "tsc",
     "dev": "yarn compile -w",
     "lint": "eslint --ext .js,.ts .",
     "fix": "yarn lint --fix"

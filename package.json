@@ -1,0 +1,38 @@
+{
+  "name": "intmax",
+  "version": "0.1.0",
+  "description": "Intmax js client library",
+  "main": "index.js",
+  "repository": "git@github.com:InternetMaximalism/intmax.js.git",
+  "author": "Kazuki Kasahara <nuderebatsin.roal@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "intmax",
+    "js",
+    "blockchain",
+    "crypto",
+    "zk",
+    "layer2"
+  ],
+  "bugs": {
+    "url": "https://github.com/InternetMaximalism/intmax.js/issues"
+  },
+  "homepage": "https://github.com/InternetMaximalism/intmax.js#readme",
+  "devDependencies": {
+    "@types/jest": "^27.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "eslint": "^8.15.0",
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.2",
+    "typescript": "^4.6.4"
+  },
+  "scripts": {
+    "compile": "tsc -p ./tsconfig.json",
+    "build": "tsc",
+    "dev": "yarn compile -w",
+    "lint": "eslint --ext .js,.ts .",
+    "fix": "yarn lint --fix",
+    "test": "jest test"
+  }
+}

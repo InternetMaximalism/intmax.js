@@ -34,5 +34,8 @@
     "lint": "eslint --ext .js,.ts .",
     "fix": "yarn lint --fix",
     "test": "jest test"
+  },
+  "dependencies": {
+    "neptune-js": "./neptune-js"
   }
 }

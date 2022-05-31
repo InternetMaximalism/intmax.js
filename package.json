@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/InternetMaximalism/intmax.js#readme",
   "devDependencies": {
-    "@types/jest": "^27.5.1",
+    "@ava/typescript": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
+    "ava": "^4.2.0",
     "eslint": "^8.15.0",
-    "jest": "^28.1.0",
-    "ts-jest": "^28.0.2",
+    "ts-node": "^10.8.0",
     "typescript": "^4.6.4"
   },
   "scripts": {
@@ -33,9 +33,17 @@
     "dev": "yarn compile -w",
     "lint": "eslint --ext .js,.ts .",
     "fix": "yarn lint --fix",
-    "test": "jest test"
+    "test": "ava test"
   },
   "dependencies": {
     "neptune-js": "./neptune-js"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
   }
 }

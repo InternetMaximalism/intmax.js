@@ -8,6 +8,10 @@
     "module": "commonjs",
     "rootDirs": ["./src"],
     "esModuleInterop": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "declaration": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["test/**/*", "node_modules"]
 }

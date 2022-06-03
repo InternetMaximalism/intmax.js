@@ -1,5 +1,3 @@
-import neptune from "neptune-js";
-
 type Leaf = string;
 type Node = string;
 type HashFn = (n1: string, n2: string) => string;
@@ -10,7 +8,7 @@ export class MerkleTree {
   private hashFn: HashFn;
   private zero = "00";
 
-  constructor(leaves: Leaf[] = [], hashFn: HashFn = neptune.poseidon_t3) {
+  constructor(leaves: Leaf[] = [], hashFn: HashFn) {
     this.validateLeaves(leaves);
 
     this.hashFn = hashFn;

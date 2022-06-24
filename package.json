@@ -38,7 +38,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "neptune-js": "./neptune-js"
+    "buffer": "^6.0.3",
+    "circomlibjs": "^0.1.6"
   },
   "jest": {
     "moduleFileExtensions": [

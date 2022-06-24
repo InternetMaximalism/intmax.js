@@ -1,3 +1,3 @@
 # intmax.js
 
-intmax library implementation in JavaScript.
+intmax client library implementation in JavaScript.

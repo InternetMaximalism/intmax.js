@@ -75,11 +75,7 @@ export class MerkleTree {
       .concat(this.leaves);
 
     for (let i = this.leaves.length - 1; i > 0; i--) {
-      this.nodes[i] = this.createHash(this.nodes[2 * i], this.nodes[2 * i + 1]);
+      this.nodes[i] = this.hashFn(this.nodes[2 * i], this.nodes[2 * i + 1]);
     }
-  }
-
-  private createHash(n1: string, n2: string) {
-    return this.hashFn(n1, n2);
   }
 }

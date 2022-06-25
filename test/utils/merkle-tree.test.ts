@@ -11,7 +11,7 @@ const getHex = (uint: string) => {
 };
 
 describe("MerkleTree", () => {
-  it("with neptune hash", async () => {
+  it("with poseidon hash", async () => {
     const poseidonHash = await circomlibjs.buildPoseidonReference();
     const leaves = ["01", "02", "03", "04"];
     const tree = new MerkleTree(leaves, (n1: string, n2: string) =>

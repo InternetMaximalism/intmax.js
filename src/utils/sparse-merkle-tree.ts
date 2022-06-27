@@ -22,10 +22,15 @@ export class SparseMerkleTree {
 
   async getProof(key: string) {
     const resFind = await this.smt.find(key);
-    if (!resFind.found) {
-      return [];
-    }
 
-    return resFind.siblings.map(toHex);
+    return Object.fromEntries(
+      Object.entries(resFind).map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return [key, value.map(toHex)];
+        }
+
+        return [key, typeof value === "boolean" ? value : toHex(value)];
+      })
+    );
   }
 }

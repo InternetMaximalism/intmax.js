@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+declare module "fake-indexeddb/auto";
 declare module "circomlibjs" {
   export function newMemEmptyTrie(): Promise<SMT>;
   export function buildPoseidonReference(): Promise<any>;

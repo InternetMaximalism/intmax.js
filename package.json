@@ -38,7 +38,9 @@
   },
   "dependencies": {
     "buffer": "^6.0.3",
-    "circomlibjs": "^0.1.6"
+    "circomlibjs": "^0.1.6",
+    "fake-indexeddb": "^3.1.8",
+    "idb": "^7.0.2"
   },
   "jest": {
     "moduleFileExtensions": [

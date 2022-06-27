@@ -11,6 +11,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "declaration": true,
+    "strictPropertyInitialization": false,
     "types": ["./types", "jest"]
   },
   "include": ["src/**/*"],

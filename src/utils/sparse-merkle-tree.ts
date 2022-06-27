@@ -12,6 +12,12 @@ export class SparseMerkleTree {
     return await this.smt.insert(key, value);
   }
 
+  async bulkInsert(nodes: string[][]) {
+    for (const [key, value] of nodes) {
+      await this.insert(key, value);
+    }
+  }
+
   getRoot() {
     if (!this.smt) {
       throw new Error("initialize the smt");

@@ -61,4 +61,21 @@ describe("SparseMerkleTree", () => {
       "0xd33f943b7afd0586f2f5b9dd9c5823c5cdb96ed0d1cd1a44af59cee3088fe726"
     );
   });
+
+  it("multiple rows of data into a tree", async () => {
+    const tree = new SparseMerkleTree();
+    await tree.initSMT();
+    const data = [
+      ["1", "8191"],
+      ["2", "57"],
+      ["5", "105"],
+    ];
+    await tree.bulkInsert(data);
+
+    const root = tree.getRoot();
+
+    expect(root).toEqual(
+      "0xd33f943b7afd0586f2f5b9dd9c5823c5cdb96ed0d1cd1a44af59cee3088fe726"
+    );
+  });
 });

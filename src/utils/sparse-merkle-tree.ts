@@ -1,5 +1,5 @@
 import * as circomlibjs from "circomlibjs";
-import { toHex } from "./converter";
+import { toHex, toHexFromArray } from "./converter";
 
 export class SparseMerkleTree {
   private smt: circomlibjs.SMT;
@@ -30,13 +30,10 @@ export class SparseMerkleTree {
     const resFind = await this.smt.find(key);
 
     return Object.fromEntries(
-      Object.entries(resFind).map(([key, value]) => {
-        if (Array.isArray(value)) {
-          return [key, value.map(toHex)];
-        }
-
-        return [key, typeof value === "boolean" ? value : toHex(value)];
-      })
+      Object.entries(resFind).map(([key, value]) => [
+        key,
+        typeof value === "boolean" ? value : toHexFromArray(value),
+      ])
     );
   }
 }

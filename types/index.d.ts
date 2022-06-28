@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+declare module "ffjavascript";
 declare module "fake-indexeddb/auto";
 declare module "circomlibjs" {
   export function newMemEmptyTrie(): Promise<SMT>;
@@ -7,6 +8,7 @@ declare module "circomlibjs" {
   export type SmtLeafValue = any; // TODO: Uint8Array(32)
   export type SmtInternalValue = any; // TODO: Uint8Array(32)
   export type SmtRoot = SmtInternalValue;
+  export function buildEddsa(): Promise<any>;
   export class SMT {
     root: SmtInternalValue;
     hash0(): SmtInternalValue;

@@ -1,12 +1,14 @@
-import { Database, SparseMerkleTree } from "../utils";
+import { Database, SparseMerkleTree, RequestClient } from "../utils";
 
 export class UserState {
   static readonly storeName = "user_state";
   private readonly db: Database;
   private smt: SparseMerkleTree;
+  private readonly request: RequestClient;
 
-  constructor() {
+  constructor(baseUrl: string) {
     this.db = new Database(UserState.storeName);
+    this.request = new RequestClient(baseUrl);
   }
 
   async initialize() {

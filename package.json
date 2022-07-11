@@ -40,9 +40,9 @@
   "scripts": {
     "compile": "tsc -p ./tsconfig.json",
     "build": "tsc",
-    "dev": "yarn compile -w",
+    "dev": "npm run compile",
     "lint": "eslint --ext .js,.ts .",
-    "fix": "yarn lint --fix",
+    "fix": "npm run lint --fix",
     "test": "jest"
   },
   "jest": {

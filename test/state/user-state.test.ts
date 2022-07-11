@@ -16,7 +16,7 @@ describe("UserState", () => {
   });
 
   it("merge diff and change the root", async () => {
-    const state = new UserState();
+    const state = new UserState("http://localhost:3000");
     await state.initialize();
 
     const prev = state.getRoot();

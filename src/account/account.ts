@@ -1,11 +1,12 @@
 import * as circomlibjs from "circomlibjs";
+import ethers from "ethers";
 import { Web3Client } from "../utils";
 
 export class Account {
   static readonly storeName = "account";
   readonly web3: Web3Client;
 
-  constructor(ethereum: any) {
+  constructor(ethereum: ethers.providers.ExternalProvider) {
     this.web3 = new Web3Client(ethereum);
   }
 

@@ -14,8 +14,11 @@ export class Account {
     const eddsa = await circomlibjs.buildEddsa();
     const privateKey = await this.web3.createPrivateKey();
     const [key] = eddsa.prvTopub(privateKey);
-    const publicKey = `0x${Buffer.from(key).toString("hex")}`.substring(0, 42);
 
-    return publicKey;
+    return this.pubToAddress(key);
+  }
+
+  private pubToAddress(publicKey: Buffer) {
+    return `0x${ethers.utils.keccak256(publicKey).slice(-40)}`;
   }
 }

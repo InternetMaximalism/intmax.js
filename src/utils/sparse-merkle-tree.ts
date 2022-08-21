@@ -8,6 +8,17 @@ export type SMTProof = {
   siblings: string[];
 };
 
+export type SMTResponseProof = {
+  siblings: string[];
+  delKey: string;
+  delValue: string;
+  oldKey: string;
+  oldValue: string;
+  isOld0: boolean;
+  newRoot: string;
+  oldRoot: string;
+};
+
 export class SparseMerkleTree {
   private smt: circomlibjs.SMT;
 
@@ -15,17 +26,27 @@ export class SparseMerkleTree {
     this.smt = await circomlibjs.newMemEmptyTrie();
   }
 
-  async insert(
-    key: string,
-    value: string
-  ): Promise<circomlibjs.InsertIntoSmtResponse> {
-    return await this.smt.insert(key, value);
+  async insert(key: string, value: string): Promise<SMTResponseProof> {
+    const proof = await this.smt.insert(key, value);
+
+    return this.toHexProof<SMTResponseProof>(proof);
   }
 
-  async bulkInsert(nodes: string[][]): Promise<void> {
+  async bulkInsert(nodes: string[][]): Promise<SMTResponseProof> {
+    const results = [];
+
     for (const [key, value] of nodes) {
-      await this.insert(key, value);
+      const res = await this.insert(key, value);
+      results.push(res);
     }
+
+    return this.toHexProof<SMTResponseProof>(results[results.length - 1]);
+  }
+
+  async remove(key: string): Promise<SMTResponseProof> {
+    const proof = await this.smt.delete(key);
+
+    return this.toHexProof<SMTResponseProof>(proof);
   }
 
   getRoot(): string {
@@ -39,11 +60,27 @@ export class SparseMerkleTree {
   async getProof(key: string): Promise<SMTProof> {
     const resFind = await this.smt.find(key);
 
+    return this.toHexProof<SMTProof>(resFind);
+  }
+
+  async update(key: string, value: string): Promise<SMTResponseProof> {
+    const proof = await this.smt.update(key, value);
+
+    return this.toHexProof<SMTResponseProof>(proof);
+  }
+
+  toHexProof<T>(
+    result:
+      | circomlibjs.FindFromSmtResponse
+      | circomlibjs.InsertIntoSmtResponse
+      | circomlibjs.UpdateSmtResponse
+      | circomlibjs.DeleteFromSmtResponse
+  ) {
     return Object.fromEntries(
-      Object.entries(resFind).map(([key, value]) => [
+      Object.entries(result).map(([key, value]) => [
         key,
         typeof value === "boolean" ? value : toHexFromArray(value),
       ])
-    ) as SMTProof;
+    ) as unknown as T;
   }
 }

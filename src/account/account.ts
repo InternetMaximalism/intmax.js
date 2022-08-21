@@ -1,6 +1,5 @@
-import * as circomlibjs from "circomlibjs";
 import { ethers } from "ethers";
-import { Web3Client } from "../utils";
+import { Web3Client, edd } from "../utils";
 
 export class Account {
   static readonly storeName = "account";
@@ -15,7 +14,7 @@ export class Account {
   }
 
   async createAddress(priKey?: string): Promise<string> {
-    const eddsa = await circomlibjs.buildEddsa();
+    const eddsa = await edd.getEddsa();
     const privateKey = priKey ?? (await this.web3.createPrivateKey());
     const [key] = eddsa.prvTopub(privateKey);
 

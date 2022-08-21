@@ -1,7 +1,5 @@
-import * as circomlibjs from "circomlibjs";
 import { ethers } from "ethers";
-import { Account, toHex } from "../../src";
-import "../helper";
+import { Account, edd, toHex } from "../../src";
 
 jest.setTimeout(10000);
 
@@ -26,7 +24,7 @@ describe("Account", () => {
   });
 
   it("check prvTopub value", async () => {
-    const eddsa = await circomlibjs.buildEddsa();
+    const eddsa = await edd.getEddsa();
     const privateKey =
       "0x0000000000000000000000000000000000000000000000000000000000000001";
     const [f, s] = eddsa.prvTopub(privateKey);

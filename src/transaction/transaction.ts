@@ -1,8 +1,7 @@
-import * as circomlibjs from "circomlibjs";
 import { Scalar } from "ffjavascript";
 import { Buffer } from "buffer";
 import * as crypto from "crypto";
-import { toHex } from "../utils";
+import { toHex, edd } from "../utils";
 
 interface TxData {
   from?: string;
@@ -20,7 +19,7 @@ export class Transaction {
   }
 
   async sign(privateKey: string) {
-    const eddsa = await circomlibjs.buildEddsa();
+    const eddsa = await edd.getEddsa();
 
     const buffer = Buffer.from(JSON.stringify(this.data));
     const msgHashed = crypto.createHash("sha256").update(buffer).digest();

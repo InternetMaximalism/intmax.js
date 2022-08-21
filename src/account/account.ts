@@ -14,9 +14,9 @@ export class Account {
     this.web3 = new Web3Client(ethereum);
   }
 
-  async createAddress(): Promise<string> {
+  async createAddress(priKey?: string): Promise<string> {
     const eddsa = await circomlibjs.buildEddsa();
-    const privateKey = await this.web3.createPrivateKey();
+    const privateKey = priKey ?? (await this.web3.createPrivateKey());
     const [key] = eddsa.prvTopub(privateKey);
 
     return this.pubToAddress(key);

@@ -9,8 +9,8 @@ export const toHex = async (value: Buffer | string) => {
   }
 
   const eddsa = await circomlibjs.buildEddsa();
-  const d = eddsa.babyJub.F.toString(value);
-  
+  const d = eddsa.F.toString(value);
+
   return `0x${BigInt(d).toString(16)}`;
 };
 

@@ -24,7 +24,7 @@ export class Web3Client {
   async createPrivateKey(): Promise<string> {
     const signature = await this.getSignature();
 
-    return `0x${ethers.utils.keccak256(signature)}`;
+    return ethers.utils.keccak256(signature);
   }
 
   async getSignature(): Promise<string> {

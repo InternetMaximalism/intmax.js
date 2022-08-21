@@ -24,6 +24,34 @@ describe("SparseMerkleTree", () => {
     });
   });
 
+  it("check proof and root by inserting following key-values", async () => {
+    const tree = new SparseMerkleTree();
+    await tree.initSMT();
+
+    await tree.insert("6", "27391");
+    await tree.insert("12", "10042");
+    await tree.insert("1", "52384");
+    await tree.insert("7", "952");
+    await tree.insert("4", "319528");
+
+    const proof = await tree.getProof("6");
+    const root = tree.getRoot();
+
+    expect(proof).toEqual({
+      found: true,
+      foundValue:
+        "0xfac9fd5fe829bfd38230c6262d51384beef699fd64dbfc338401ba006b2b3418",
+      isOld0: false,
+      siblings: [
+        "0x97e39ffb281ce3ed1ddc1317a7244a5fb7d9f94e158a32300a07bea4666a1c02",
+        "0x87516ba22a290b6e0f6598c671f74377615a53204c20fe5e5fef1b691816501c",
+      ],
+    });
+    expect(root).toBe(
+      "0x292fb1c5b2bd85c0ff5790ee1e7c78528a5a55030e6d4d108cc10ad94793560b"
+    );
+  });
+
   it("get siblings with no-existing key", async () => {
     const tree = new SparseMerkleTree();
     await tree.initSMT();

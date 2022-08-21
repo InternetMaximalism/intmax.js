@@ -2,7 +2,7 @@ import { Buffer } from "buffer";
 
 export type BufferString = Buffer | Buffer[] | string[] | string;
 
-export const toHex = (value: Buffer | string) => {
+export const toHex = (value: Buffer | string): string => {
   if (typeof value === "string") {
     return value;
   }

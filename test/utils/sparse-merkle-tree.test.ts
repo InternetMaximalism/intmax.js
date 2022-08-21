@@ -52,6 +52,108 @@ describe("SparseMerkleTree", () => {
     );
   });
 
+  it("remove node from smt", async () => {
+    const tree = new SparseMerkleTree();
+    await tree.initSMT();
+
+    await tree.insert("6", "27391");
+    await tree.insert("12", "10042");
+    await tree.insert("1", "52384");
+    await tree.insert("7", "952");
+    await tree.insert("4", "319528");
+
+    const result = await tree.remove("12");
+    const proof = tree.toHexProof(result);
+
+    expect(proof).toEqual({
+      siblings: [
+        "0x97e39ffb281ce3ed1ddc1317a7244a5fb7d9f94e158a32300a07bea4666a1c02",
+        "0x69732e3bbff44ef48f5a059dec75c2e7844cf03a36061821bcab46390476a515",
+      ],
+      delKey:
+        "0xc1ffffef9790644b404c5d0b2ad6391b13412b2116d83ea4bb95c994bab15017",
+      delValue:
+        "0x7d30ff2f3cb6cc8dc6ef15c47c889d74d2745c24e4c08dc69d4e19a31ff73c21",
+      oldKey:
+        "0xebffff4fddda766e15c4c9030ef2bdb35bc0636007486ae193dced869390c507",
+      oldValue:
+        "0x1135e6ef828fd258c0a7dd0a2e112dd33c126c67cb423ac7c68d37f6351f3c03",
+      isOld0: false,
+      newRoot:
+        "0x8696b0a374ae099aae4d4124deb7ee1adaa832a0daa8466ffff585f5e1b2f423",
+      oldRoot:
+        "0x292fb1c5b2bd85c0ff5790ee1e7c78528a5a55030e6d4d108cc10ad94793560b",
+    });
+  });
+
+  it("insert node into smt", async () => {
+    const tree = new SparseMerkleTree();
+    await tree.initSMT();
+
+    await tree.insert("6", "27391");
+    await tree.insert("12", "10042");
+    await tree.insert("1", "52384");
+    await tree.insert("7", "952");
+    await tree.insert("4", "319528");
+    await tree.remove("12");
+
+    const result = await tree.insert("12", "10042");
+    const proof = tree.toHexProof(result);
+
+    expect(proof).toEqual({
+      oldRoot:
+        "0x8696b0a374ae099aae4d4124deb7ee1adaa832a0daa8466ffff585f5e1b2f423",
+      siblings: [
+        "0x97e39ffb281ce3ed1ddc1317a7244a5fb7d9f94e158a32300a07bea4666a1c02",
+        "0x69732e3bbff44ef48f5a059dec75c2e7844cf03a36061821bcab46390476a515",
+      ],
+      oldKey:
+        "0xebffff4fddda766e15c4c9030ef2bdb35bc0636007486ae193dced869390c507",
+      oldValue:
+        "0x1135e6ef828fd258c0a7dd0a2e112dd33c126c67cb423ac7c68d37f6351f3c03",
+      newRoot:
+        "0x292fb1c5b2bd85c0ff5790ee1e7c78528a5a55030e6d4d108cc10ad94793560b",
+      isOld0: false,
+    });
+  });
+
+  it("update value for key", async () => {
+    const tree = new SparseMerkleTree();
+    await tree.initSMT();
+
+    await tree.insert("6", "27391");
+    await tree.insert("12", "10042");
+    await tree.insert("1", "52384");
+    await tree.insert("7", "952");
+    await tree.insert("4", "319528");
+    await tree.remove("12");
+    await tree.insert("12", "10042");
+
+    const result = await tree.update("12", "1234");
+    const proof = tree.toHexProof(result);
+
+    expect(proof).toEqual({
+      oldRoot:
+        "0x292fb1c5b2bd85c0ff5790ee1e7c78528a5a55030e6d4d108cc10ad94793560b",
+      oldKey:
+        "0xc1ffffef9790644b404c5d0b2ad6391b13412b2116d83ea4bb95c994bab15017",
+      oldValue:
+        "0x7d30ff2f3cb6cc8dc6ef15c47c889d74d2745c24e4c08dc69d4e19a31ff73c21",
+      newKey:
+        "0xc1ffffef9790644b404c5d0b2ad6391b13412b2116d83ea4bb95c994bab15017",
+      newValue:
+        "0x80e6ffff97c309febc874907e0c75cd47eb8b29d19520e0124d88b8e918e2f02",
+      siblings: [
+        "0x97e39ffb281ce3ed1ddc1317a7244a5fb7d9f94e158a32300a07bea4666a1c02",
+        "0x69732e3bbff44ef48f5a059dec75c2e7844cf03a36061821bcab46390476a515",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x1c005f3b700b2e9f9f546625fd3ed01c2b4625e03c0258bdd90846b3702cee21",
+      ],
+      newRoot:
+        "0xb82688571915b48564f9c3a83eb71deb0a81e21b27476899b3687defe9a22b01",
+    });
+  });
+
   it("get siblings with no-existing key", async () => {
     const tree = new SparseMerkleTree();
     await tree.initSMT();

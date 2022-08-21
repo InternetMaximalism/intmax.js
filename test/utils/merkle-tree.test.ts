@@ -9,10 +9,10 @@ describe("MerkleTree", () => {
       poseidonHash([n1, n2])
     );
 
-    expect(toHex(tree.getRoot())).toBe(
+    expect(await toHex(tree.getRoot())).toBe(
       "0x5854a9f49657916c9f5dd58c30aa8237098897785953b41a186893f4c83c0901"
     );
-    expect(tree.getProof(0).map(toHex)).toEqual([
+    expect(await Promise.all(tree.getProof(0).map(toHex))).toEqual([
       "02",
       "0x550cd87277dd3a6bb3461c95bf0aca830b7a6ad8d885dc0f4a1b89f91c2dba1c",
     ]);

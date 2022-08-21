@@ -1,5 +1,6 @@
+import * as circomlibjs from "circomlibjs";
 import { ethers } from "ethers";
-import { Web3Client, edd } from "../utils";
+import { Web3Client } from "../utils";
 
 export class Account {
   static readonly storeName = "account";
@@ -13,15 +14,20 @@ export class Account {
     this.web3 = new Web3Client(ethereum);
   }
 
-  async createAddress(priKey?: string): Promise<string> {
-    const eddsa = await edd.getEddsa();
+  async createAddress(priKey?: string | Buffer): Promise<string> {
+    const eddsa = await circomlibjs.buildEddsa();
     const privateKey = priKey ?? (await this.web3.createPrivateKey());
-    const [key] = eddsa.prvTopub(privateKey);
 
-    return this.pubToAddress(key);
+    const publicKey: [Uint8Array, Uint8Array] = eddsa.prvTopub(privateKey);
+
+    return this.pubToAddress(publicKey);
   }
 
-  private pubToAddress(publicKey: Buffer): string {
-    return `0x${ethers.utils.keccak256(publicKey).slice(-40)}`;
+  private async pubToAddress(publicKey: [Uint8Array, Uint8Array]): Promise<string> {
+    const poseidonHash = await circomlibjs.buildPoseidonReference();
+    const hashedPublicKey: Uint8Array = poseidonHash(publicKey);
+    const d = BigInt(poseidonHash.F.toString(hashedPublicKey)).toString(16);
+    console.log("d:", d);
+    return `0x${d.slice(-40)}`;
   }
 }

@@ -18,22 +18,24 @@ export class SparseMerkleTree {
     }
   }
 
-  getRoot() {
+  async getRoot() {
     if (!this.smt) {
       throw new Error("initialize the smt");
     }
 
-    return toHex(this.smt.root);
+    return await toHex(this.smt.root);
   }
 
   async getProof(key: string) {
     const resFind = await this.smt.find(key);
 
     return Object.fromEntries(
-      Object.entries(resFind).map(([key, value]) => [
-        key,
-        typeof value === "boolean" ? value : toHexFromArray(value),
-      ])
+      await Promise.all(
+        Object.entries(resFind).map(async ([key, value]) => [
+          key,
+          typeof value === "boolean" ? value : await toHexFromArray(value),
+        ])
+      )
     );
   }
 }

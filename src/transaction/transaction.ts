@@ -29,7 +29,7 @@ export class Transaction {
     const signature = eddsa.signPoseidon(prvKey, msg);
 
     return {
-      R8: signature.R8.map(toHex),
+      R8: Promise.all(signature.R8.map(toHex)),
       S: `0x${signature.S}`,
     };
   }

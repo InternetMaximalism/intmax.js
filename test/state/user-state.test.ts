@@ -1,7 +1,5 @@
 import { UserState, Database } from "../../src";
 
-jest.setTimeout(30000);
-
 describe("UserState", () => {
   beforeAll(async () => {
     const db = new Database(UserState.storeName);

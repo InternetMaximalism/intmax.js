@@ -1,7 +1,5 @@
 import { SparseMerkleTree } from "../../src";
 
-jest.setTimeout(30000);
-
 describe("SparseMerkleTree", () => {
   it("get siblings", async () => {
     const tree = new SparseMerkleTree();

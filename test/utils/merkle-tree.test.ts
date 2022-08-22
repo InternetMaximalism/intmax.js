@@ -1,7 +1,5 @@
 import { MerkleTree, toHex, crh } from "../../src";
 
-jest.setTimeout(10000);
-
 describe("MerkleTree", () => {
   it("with poseidon hash", async () => {
     const poseidonHash = await crh.getPoseidon();

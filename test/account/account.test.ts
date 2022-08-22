@@ -1,8 +1,6 @@
 import { ethers } from "ethers";
 import { Account, crh, toHex } from "../../src";
 
-jest.setTimeout(30000);
-
 describe("Account", () => {
   const provider = new ethers.providers.JsonRpcProvider();
 

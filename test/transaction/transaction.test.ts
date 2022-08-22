@@ -1,7 +1,5 @@
 import { Transaction } from "../../src";
 
-jest.setTimeout(10000);
-
 describe("Transaction", () => {
   it("sign tx data", async () => {
     const tx = new Transaction({

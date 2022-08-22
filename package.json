@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "buffer": "^6.0.3",
-    "circomlibjs": "git+https://github.com/InternetMaximalism/circomlibjs#a010db5c0cf1c7e8d8cb465a1cd5bd57d06b6dd5",
+    "circomlibjs": "git+https://github.com/InternetMaximalism/circomlibjs#fc534a12d9b34f2694ed0f75a686d080fc7a92d6",
     "ethers": "^5.7.0",
     "fake-indexeddb": "^4.0.0",
     "idb": "^7.0.2",

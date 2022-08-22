@@ -51,13 +51,13 @@ describe("Account", () => {
     const { R8: r, S: s } = eddsa.signPoseidon(privateKey, msg);
 
     expect(await toHex(r[0])).toBe(
-      "0x6bf9f349c8d1c0167d5e34fbb07a39213a62aae7590f5625bded8a446e61c01"
+      "0xe485905f903f7a685dcbabcc95b0cbaf04253f068e3683d512a61d069432ef6"
     );
     expect(await toHex(r[1])).toBe(
-      "0x15c93553b0c00335b0a188376067b785fe7b33820f883bb5b1c8e5586c38efba"
+      "0x1e3acf5a663dcf22ac4e250224d50aaea65630df87cc15c2bd8a983a63f838e2"
     );
     expect(s.toString()).toBe(
-      "1842925266764536856618190689296271128085616062202856458404471185296361256045"
+      "1706270537006754120968195497236268103971389335408901934892211016010768296833"
     );
   });
 });

@@ -1,19 +1,23 @@
 import { Buffer } from "buffer";
+import { crh } from "./crypto-hash";
 
 export type BufferString = Buffer | Buffer[] | string[] | string;
 
-export const toHex = (value: Buffer | string): string => {
+export const toHex = async (value: Buffer | string) => {
   if (typeof value === "string") {
     return value;
   }
 
-  return `0x${Buffer.from(value).toString("hex")}`;
+  const eddsa = await crh.getEddsa();
+  const d = eddsa.F.toString(value);
+
+  return `0x${BigInt(d).toString(16)}`;
 };
 
-export const toHexFromArray = (value: BufferString) => {
+export const toHexFromArray = async (value: BufferString) => {
   if (Array.isArray(value)) {
-    return value.map(toHex);
+    return await Promise.all(value.map(toHex));
   }
 
-  return toHex(value);
+  return await toHex(value);
 };

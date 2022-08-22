@@ -62,6 +62,7 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "testTimeout": 60000,
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],

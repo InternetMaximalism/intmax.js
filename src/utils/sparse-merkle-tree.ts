@@ -49,12 +49,12 @@ export class SparseMerkleTree {
     return this.toHexProof<SMTResponseProof>(proof);
   }
 
-  getRoot(): string {
+  async getRoot(): Promise<string> {
     if (!this.smt) {
       throw new Error("initialize the smt");
     }
 
-    return toHex(this.smt.root);
+    return await toHex(this.smt.root);
   }
 
   async getProof(key: string): Promise<SMTProof> {
@@ -69,7 +69,7 @@ export class SparseMerkleTree {
     return this.toHexProof<SMTResponseProof>(proof);
   }
 
-  toHexProof<T>(
+  async toHexProof<T>(
     result:
       | circomlibjs.FindFromSmtResponse
       | circomlibjs.InsertIntoSmtResponse
@@ -77,10 +77,12 @@ export class SparseMerkleTree {
       | circomlibjs.DeleteFromSmtResponse
   ) {
     return Object.fromEntries(
-      Object.entries(result).map(([key, value]) => [
-        key,
-        typeof value === "boolean" ? value : toHexFromArray(value),
-      ])
+      await Promise.all(
+        Object.entries(result).map(async ([key, value]) => [
+          key,
+          typeof value === "boolean" ? value : await toHexFromArray(value),
+        ])
+      )
     ) as unknown as T;
   }
 }

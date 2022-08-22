@@ -1,20 +1,19 @@
-import * as circomlibjs from "circomlibjs";
-import { MerkleTree, toHex } from "../../src";
+import { MerkleTree, toHex, crh } from "../../src";
 
 describe("MerkleTree", () => {
   it("with poseidon hash", async () => {
-    const poseidonHash = await circomlibjs.buildPoseidonReference();
+    const poseidonHash = await crh.getPoseidon();
     const leaves = ["01", "02", "03", "04"];
     const tree = new MerkleTree(leaves, (n1: string, n2: string) =>
       poseidonHash([n1, n2])
     );
 
-    expect(toHex(tree.getRoot())).toBe(
-      "0x5854a9f49657916c9f5dd58c30aa8237098897785953b41a186893f4c83c0901"
+    expect(await toHex(tree.getRoot())).toBe(
+      "0x75d30e28d48842bd6c1044b68f982d586e2892ae91c77f8f56111d8f55070ed"
     );
-    expect(tree.getProof(0).map(toHex)).toEqual([
+    expect(await Promise.all(tree.getProof(0).map(toHex))).toEqual([
       "02",
-      "0x550cd87277dd3a6bb3461c95bf0aca830b7a6ad8d885dc0f4a1b89f91c2dba1c",
+      "0x20a3af0435914ccd84b806164531b0cd36e37d4efb93efab76913a93e1f30996",
     ]);
     expect(tree.getValue(1)).toBe("02");
   });

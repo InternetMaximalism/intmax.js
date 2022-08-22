@@ -1,7 +1,7 @@
 import { Scalar } from "ffjavascript";
 import { Buffer } from "buffer";
 import * as crypto from "crypto";
-import { toHex, edd } from "../utils";
+import { toHex, crh } from "../utils";
 
 interface TxData {
   from?: string;
@@ -19,7 +19,7 @@ export class Transaction {
   }
 
   async sign(privateKey: string) {
-    const eddsa = await edd.getEddsa();
+    const eddsa = await crh.getEddsa();
 
     const buffer = Buffer.from(JSON.stringify(this.data));
     const msgHashed = crypto.createHash("sha256").update(buffer).digest();
@@ -29,7 +29,7 @@ export class Transaction {
     const signature = eddsa.signPoseidon(prvKey, msg);
 
     return {
-      R8: Promise.all(signature.R8.map(toHex)),
+      R8: await Promise.all(signature.R8.map(toHex)),
       S: `0x${signature.S}`,
     };
   }

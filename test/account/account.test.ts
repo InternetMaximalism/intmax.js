@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
-import { Account, edd, toHex } from "../../src";
+import { Account, crh, toHex } from "../../src";
 
-jest.setTimeout(100000);
+jest.setTimeout(30000);
 
 describe("Account", () => {
   const provider = new ethers.providers.JsonRpcProvider();
@@ -20,13 +20,15 @@ describe("Account", () => {
     const account = new Account(provider);
     const address = await account.createAddress(privateKey);
 
-    expect(address).toBe("0x2fd9ec81bfb972f0b42fcce919718e44e8b924da");
+    expect(address).toBe("0x14d37961933af8d7b4225a6b8a71919156bfd0af");
   });
 
   it("check prvTopub value", async () => {
-    const eddsa = await edd.getEddsa();
-    const privateKey =
-      Buffer.from("0000000000000000000000000000000000000000000000000000000000000001", "hex");
+    const eddsa = await crh.getEddsa();
+    const privateKey = Buffer.from(
+      "0000000000000000000000000000000000000000000000000000000000000001",
+      "hex"
+    );
     const [x, y] = eddsa.prvTopub(privateKey);
 
     // expect(await toHex(x)).toBe(
@@ -38,12 +40,12 @@ describe("Account", () => {
 
     const account = new Account(provider);
     const address = await account.createAddress(privateKey);
-  
-    expect(address).toBe("0x25a374d11e8d609b0e44355c2f14d081a51cb132");
+
+    expect(address).toBe("0x315de3bf5ead49f7c2d45949d26ced7c599f716b");
   });
 
   it("check signPoseidon signature", async () => {
-    const eddsa = await edd.getEddsa();
+    const eddsa = await crh.getEddsa();
     const privateKey =
       "0x0000000000000000000000000000000000000000000000000000000000000001";
     const msg =
@@ -51,10 +53,10 @@ describe("Account", () => {
     const { R8: r, S: s } = eddsa.signPoseidon(privateKey, msg);
 
     expect(await toHex(r[0])).toBe(
-      "0x2f5f43a4af8db2adebf0e8811536a0412a80d0d4a61ba9550a66bfbf420aff03"
+      "0x6bf9f349c8d1c0167d5e34fbb07a39213a62aae7590f5625bded8a446e61c01"
     );
     expect(await toHex(r[1])).toBe(
-      "0xe567431de9bfd19e20f711542e49782e59c725b84751b0100315b31455f2fc22"
+      "0x15c93553b0c00335b0a188376067b785fe7b33820f883bb5b1c8e5586c38efba"
     );
     expect(s.toString()).toBe(
       "1842925266764536856618190689296271128085616062202856458404471185296361256045"

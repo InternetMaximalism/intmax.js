@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import * as circomlibjs from "circomlibjs";
+import { crh } from "./crypto-hash";
 
 export type BufferString = Buffer | Buffer[] | string[] | string;
 
@@ -8,7 +8,7 @@ export const toHex = async (value: Buffer | string) => {
     return value;
   }
 
-  const eddsa = await circomlibjs.buildEddsa();
+  const eddsa = await crh.getEddsa();
   const d = eddsa.F.toString(value);
 
   return `0x${BigInt(d).toString(16)}`;

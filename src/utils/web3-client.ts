@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import { config } from "../config";
 
 export class Web3Client {
   private readonly provider: ethers.providers.JsonRpcProvider;
@@ -6,7 +7,6 @@ export class Web3Client {
   private _privateKey: string | null;
   private readonly isMetamask: boolean;
   static METAMASK_URL = "metamask";
-  readonly msg = "Sign this message to connect to Intmax's L2 Account.";
 
   constructor(
     provider: ethers.providers.Web3Provider | ethers.providers.JsonRpcProvider
@@ -30,12 +30,12 @@ export class Web3Client {
 
   async getSignature(): Promise<string> {
     if (this.isMetamask) {
-      return await this.signer.signMessage(this.msg);
+      return await this.signer.signMessage(config.intmaxSignMsg);
     }
 
     const wallet = ethers.Wallet.createRandom();
 
-    return await wallet.signMessage(this.msg);
+    return await wallet.signMessage(config.intmaxSignMsg);
   }
 
   private validateArg(arg: string | null): string {

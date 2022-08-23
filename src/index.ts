@@ -2,4 +2,5 @@ export * from "./state";
 export * from "./transaction";
 export * from "./utils";
 export * from "./account";
-export * from "./interface";
+export * from "./interfaces";
+export * from "./config";

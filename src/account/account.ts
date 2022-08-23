@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { Scalar } from "ffjavascript";
 import * as crypto from "crypto";
 import { crh, Web3Client, toHex } from "../utils";
-import { TxData, Signature } from "../interface";
+import { TxData, Signature } from "../interfaces";
 
 export class Account {
   static readonly storeName = "account";

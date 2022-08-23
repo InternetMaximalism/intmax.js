@@ -5,8 +5,3 @@ export interface TxData {
     [key: string]: string;
   };
 }
-
-export interface Signature {
-  R8: string[];
-  S: string;
-}

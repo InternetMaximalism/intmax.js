@@ -1,6 +1,9 @@
-import { Transaction } from "../../src";
+import { ethers } from "ethers";
+import { Account, Transaction } from "../../src";
 
 describe("Transaction", () => {
+  const provider = new ethers.providers.JsonRpcProvider();
+
   it("sign tx data", async () => {
     const tx = new Transaction({
       to: "0xd9024df085d09398ec76fbed18cac0e1149f50dc",
@@ -10,16 +13,17 @@ describe("Transaction", () => {
       },
     });
 
-    const signature = await tx.sign(
-      "0001020304050607080900010203040506070809000102030405060708090001"
-    );
+    const account = new Account(provider);
+    await account.activate();
 
-    expect(signature).toEqual({
+    const signedTx = await account.signTransaction(tx.data);
+
+    expect(signedTx).toEqual({
       R8: [
-        "0x292cee004061862f29aa9f6c7676756162080b8fd25ced46d9986a71d9a1d7dd",
-        "0xc55c74a0d10df51a1c193a6dfaf4eafcb8a6738d6e5144f57773cf962cc4044",
+        "0x86e1c59987018fa507ea72dc11b213af1de2a937683038a2e549d33fa67b719",
+        "0x191311c37348bbfacc9e3e2e55562bfa3289a5c1e36899b480422b9e3183219c",
       ],
-      S: "0x1869277942496310060405198470715151722398093762142578141445812726747478551882",
+      S: "0x230833177213849518285192013347963486547572741225951194549798916400117838067",
     });
   });
 });

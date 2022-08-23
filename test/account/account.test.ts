@@ -60,4 +60,12 @@ describe("Account", () => {
       "1706270537006754120968195497236268103971389335408901934892211016010768296833"
     );
   });
+
+  it("sign message", async () => {
+    const account = new Account(provider);
+    const address = await account.createAddress();
+
+    expect(address).toHaveLength(42);
+    expect(address.substring(0, 2)).toBe("0x");
+  });
 });

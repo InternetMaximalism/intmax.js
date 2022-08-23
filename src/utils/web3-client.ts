@@ -2,7 +2,8 @@ import { ethers } from "ethers";
 
 export class Web3Client {
   private readonly provider: ethers.providers.JsonRpcProvider;
-  private readonly signer: ethers.providers.JsonRpcSigner;
+  readonly signer: ethers.providers.JsonRpcSigner;
+  private _privateKey: string | null;
   private readonly isMetamask: boolean;
   static METAMASK_URL = "metamask";
   readonly msg = "Sign this message to connect to Intmax's L2 Account.";
@@ -18,8 +19,13 @@ export class Web3Client {
 
   async createPrivateKey(): Promise<string> {
     const signature = await this.getSignature();
+    this._privateKey = ethers.utils.keccak256(signature);
 
-    return ethers.utils.keccak256(signature);
+    return this._privateKey;
+  }
+
+  getPrivateKey(): string {
+    return this.validateArg(this._privateKey);
   }
 
   async getSignature(): Promise<string> {
@@ -30,5 +36,13 @@ export class Web3Client {
     const wallet = ethers.Wallet.createRandom();
 
     return await wallet.signMessage(this.msg);
+  }
+
+  private validateArg(arg: string | null): string {
+    if (!arg) {
+      throw new Error("connect to the metamask.");
+    }
+
+    return arg;
   }
 }

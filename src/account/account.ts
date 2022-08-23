@@ -7,11 +7,9 @@ export class Account {
   readonly web3: Web3Client;
 
   constructor(
-    ethereum:
-      | ethers.providers.ExternalProvider
-      | ethers.providers.JsonRpcProvider
+    provider: ethers.providers.Web3Provider | ethers.providers.JsonRpcProvider
   ) {
-    this.web3 = new Web3Client(ethereum);
+    this.web3 = new Web3Client(provider);
   }
 
   async createAddress(priKey?: string | Buffer): Promise<string> {

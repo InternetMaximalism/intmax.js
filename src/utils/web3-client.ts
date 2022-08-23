@@ -1,22 +1,17 @@
 import { ethers } from "ethers";
 
 export class Web3Client {
-  readonly provider: ethers.providers.JsonRpcProvider;
-  readonly signer: ethers.providers.JsonRpcSigner;
-  readonly isMetamask: boolean;
-  readonly msg = "intmax sign message";
+  private readonly provider: ethers.providers.JsonRpcProvider;
+  private readonly signer: ethers.providers.JsonRpcSigner;
+  private readonly isMetamask: boolean;
+  static METAMASK_URL = "metamask";
+  readonly msg = "Sign this message to connect to Intmax's L2 Account.";
 
   constructor(
-    ethereum:
-      | ethers.providers.ExternalProvider
-      | ethers.providers.JsonRpcProvider
+    provider: ethers.providers.Web3Provider | ethers.providers.JsonRpcProvider
   ) {
-    this.isMetamask = (ethereum as any).isMetamask;
-    this.provider = this.isMetamask
-      ? new ethers.providers.Web3Provider(
-          ethereum as ethers.providers.ExternalProvider
-        )
-      : (ethereum as ethers.providers.JsonRpcProvider);
+    this.isMetamask = provider.connection.url === Web3Client.METAMASK_URL;
+    this.provider = provider;
 
     this.signer = this.provider.getSigner();
   }

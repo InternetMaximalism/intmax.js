@@ -20,8 +20,8 @@ export class UserState {
     await this.smt.bulkInsert(data);
   }
 
-  getRoot() {
-    return this.smt.getRoot();
+  async getRoot(): Promise<string> {
+    return await this.smt.getRoot();
   }
 
   async merge(diff: string[][]) {

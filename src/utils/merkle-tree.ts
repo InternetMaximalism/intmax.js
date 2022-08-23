@@ -52,7 +52,7 @@ export class MerkleTree {
     return siblings;
   }
 
-  private validateLeaves(leaves: Leaf[]) {
+  private validateLeaves(leaves: Leaf[]): void {
     if (leaves.length < 1) {
       throw new Error("You pass one leaf at least");
     }
@@ -67,7 +67,7 @@ export class MerkleTree {
     }
   }
 
-  private populateLeaves(leaves: Leaf[]) {
+  private populateLeaves(leaves: Leaf[]): void {
     this.leaves = leaves;
 
     this.nodes = Array.from(Array(this.leaves.length))

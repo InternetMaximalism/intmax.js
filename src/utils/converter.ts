@@ -3,7 +3,7 @@ import { crh } from "./crypto-hash";
 
 export type BufferString = Buffer | Buffer[] | string[] | string;
 
-export const toHex = async (value: Buffer | string) => {
+export const toHex = async (value: Buffer | string): Promise<string> => {
   if (typeof value === "string") {
     return value;
   }
@@ -14,7 +14,9 @@ export const toHex = async (value: Buffer | string) => {
   return `0x${BigInt(d).toString(16)}`;
 };
 
-export const toHexFromArray = async (value: BufferString) => {
+export const toHexFromArray = async (
+  value: BufferString
+): Promise<string | string[]> => {
   if (Array.isArray(value)) {
     return await Promise.all(value.map(toHex));
   }

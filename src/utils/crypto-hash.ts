@@ -1,10 +1,10 @@
 import * as circomlibjs from "circomlibjs";
 
 export class CryptoHash {
-  eddsa: any;
+  eddsa: circomlibjs.Eddsa;
   poseidon: any;
 
-  async getEddsa() {
+  async getEddsa(): Promise<circomlibjs.Eddsa> {
     if (this.eddsa) {
       return this.eddsa;
     }

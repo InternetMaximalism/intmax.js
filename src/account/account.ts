@@ -1,8 +1,9 @@
 import { ethers } from "ethers";
 import { Scalar } from "ffjavascript";
 import * as crypto from "crypto";
+import * as circomlibjs from "circomlibjs";
 import { crh, Web3Client, toHex } from "../utils";
-import { TxData, Signature } from "../interfaces";
+import { TxData } from "../interfaces";
 
 export class Account {
   static readonly storeName = "account";
@@ -33,7 +34,7 @@ export class Account {
     return this.validateArg(this._address);
   }
 
-  async sign(message: string): Promise<Signature> {
+  async sign(message: string): Promise<circomlibjs.Signature> {
     const privateKey = this.validateArg(this.web3.getPrivateKey());
 
     const eddsa = await crh.getEddsa();
@@ -50,7 +51,7 @@ export class Account {
     };
   }
 
-  async signTransaction(tx: TxData): Promise<Signature> {
+  async signTransaction(tx: TxData): Promise<circomlibjs.Signature> {
     const txString = JSON.stringify(tx);
 
     return this.sign(txString);

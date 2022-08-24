@@ -17,7 +17,7 @@ export class UserState {
 
     const data = await this.db.getAll();
 
-    await this.smt.bulkInsert(data);
+    return await this.smt.bulkInsert(data);
   }
 
   async getRoot(): Promise<string> {

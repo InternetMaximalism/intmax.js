@@ -7,8 +7,18 @@ declare module "circomlibjs" {
   export type SmtKey = any; // TODO: Uint8Array(32)
   export type SmtLeafValue = any; // TODO: Uint8Array(32)
   export type SmtInternalValue = any; // TODO: Uint8Array(32)
+  export type Signature = {
+    R8: string[];
+    S: string;
+  };
   export type SmtRoot = SmtInternalValue;
-  export function buildEddsa(): Promise<any>;
+  export function buildEddsa(): Promise<Eddsa>;
+  export class Eddsa {
+    prvTopub(prv: string | Buffer): any;
+    signPoseidon(prv: Buffer | string, msg: string): Signature;
+    babyJub: any;
+    F: any;
+  }
   export class SMT {
     root: SmtInternalValue;
     hash0(): SmtInternalValue;

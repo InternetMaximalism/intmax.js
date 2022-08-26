@@ -4,8 +4,15 @@ import { Account, Transaction } from "../../src";
 describe("Transaction", () => {
   const provider = new ethers.providers.JsonRpcProvider();
 
-  it("sign tx data", async () => {
-    const tx = new Transaction({
+  it("get signed transaction data", async () => {
+    const privateKey = Buffer.from(
+      "0000000000000000000000000000000000000000000000000000000000000001",
+      "hex"
+    );
+    const account = new Account(provider);
+    await account.activate(privateKey);
+
+    const transaction = new Transaction({
       to: "0xd9024df085d09398ec76fbed18cac0e1149f50dc",
       from: "0x5854a9f49657916c9f5dd58c30aa823709889778",
       data: {
@@ -13,17 +20,21 @@ describe("Transaction", () => {
       },
     });
 
-    const account = new Account(provider);
-    await account.activate();
-
-    const signedTx = await account.signTransaction(tx.data);
+    const signedTx = await account.getSignedTransaction(transaction);
 
     expect(signedTx).toEqual({
-      R8: [
-        "0x86e1c59987018fa507ea72dc11b213af1de2a937683038a2e549d33fa67b719",
-        "0x191311c37348bbfacc9e3e2e55562bfa3289a5c1e36899b480422b9e3183219c",
-      ],
-      S: "0x230833177213849518285192013347963486547572741225951194549798916400117838067",
+      transaction: {
+        contract_address: "0xd9024df085d09398ec76fbed18cac0e1149f50dc",
+        nonce: 1,
+      },
+      tx_hash: "74982d04fe6b96c7f1ee9e91e94dcb0d0f2487ecd00266086a9ca4735eaab4",
+      signature: {
+        R8: [
+          "0x1fc54cb4786899702c6cf39b12f183aa554e57dfce21459641a744d27cc01b17",
+          "0x5e43ceed5c4a8f82da5b4517ed7a185de06b0856aaa6128b660f1a19d4b09eb",
+        ],
+        S: "0x1891475010171774572013505990967488256389827845472630859491691733750570320191",
+      },
     });
   });
 });

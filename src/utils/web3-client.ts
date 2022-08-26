@@ -17,11 +17,11 @@ export class Web3Client {
     this.signer = this.provider.getSigner();
   }
 
-  async createPrivateKey(): Promise<string> {
+  async createPrivateKey(): Promise<Buffer> {
     const signature = await this.getSignature();
     this._privateKey = ethers.utils.keccak256(signature);
 
-    return this._privateKey;
+    return Buffer.from(this._privateKey, "hex");
   }
 
   getPrivateKey(): string {

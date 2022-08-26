@@ -1,5 +1,5 @@
 export type AccountData = {
-  privateKey: string;
+  privateKey: Buffer;
   publicKey: string;
   address: string;
   nonce: number;

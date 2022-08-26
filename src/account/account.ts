@@ -10,7 +10,7 @@ export class Account {
   static readonly storeName = "account";
   readonly web3: Web3Client;
   private _address: string | null;
-  private _privateKey: string | null;
+  private _privateKey: Buffer | null;
   private _publicKey: string | null;
 
   constructor(
@@ -19,15 +19,15 @@ export class Account {
     this.web3 = new Web3Client(provider);
   }
 
-  async activate(priKey?: string): Promise<void> {
+  async activate(priKey?: Buffer): Promise<void> {
     const address = await this.createAddress(priKey);
 
     this._address = address;
   }
 
-  async createAddress(priKey?: string): Promise<string> {
+  async createAddress(inputPrivateKey?: Buffer): Promise<string> {
     const eddsa = await crh.getEddsa();
-    const privateKey = priKey ?? (await this.web3.createPrivateKey());
+    const privateKey = inputPrivateKey ?? (await this.web3.createPrivateKey());
     const publicKey: [Uint8Array, Uint8Array] = eddsa.prvTopub(privateKey);
 
     this._privateKey = privateKey;
@@ -58,8 +58,7 @@ export class Account {
     const msgHashed = crypto.createHash("sha256").update(buffer).digest();
     const msg = eddsa.babyJub.F.e(Scalar.fromRprLE(msgHashed, 0));
 
-    const privateKeyBuf = Buffer.from(privateKey, "hex");
-    const signature = eddsa.signPoseidon(privateKeyBuf, msg);
+    const signature = eddsa.signPoseidon(privateKey, msg);
 
     return {
       R8: await Promise.all(signature.R8.map(toHex)),

@@ -13,25 +13,29 @@ describe("Account", () => {
   });
 
   it("pass specified private key", async () => {
-    const privateKey =
-      "0x0b33a107e4b1078160010ca65332269337b4424b095e2e8d91c7dbec336479c5";
+    const privateKey = Buffer.from(
+      "0000000000000000000000000000000000000000000000000000000000000001",
+      "hex"
+    );
     const account = new Account(provider);
     const address = await account.createAddress(privateKey);
 
-    expect(address).toBe("0x14d37961933af8d7b4225a6b8a71919156bfd0af");
+    expect(address).toBe("0x315de3bf5ead49f7c2d45949d26ced7c599f716b");
   });
 
   it("check prvTopub value", async () => {
     const eddsa = await crh.getEddsa();
+
+    // TODO: PrivateKey受け取りはBuffer形式に統一する
     const privateKey = Buffer.from(
       "0000000000000000000000000000000000000000000000000000000000000001",
       "hex"
     );
     const [x, y] = eddsa.prvTopub(privateKey);
 
-    // expect(await toHex(x)).toBe(
-    //   "0x21f28bc1110e2a818287bea6ed159d6033ad5d0d28b30bf865616c5f524d48fc"
-    // );
+    expect(await toHex(x)).toBe(
+      "0x16fe43085bc15e88154f8e492b668248268bcfb029b6d496ab78dfef3e189ea5"
+    );
     expect(await toHex(y)).toBe(
       "0x13c207a69f6e609215e86cc1ff67d860ea5fe371fcf744b3752b7b6f39035ae7"
     );

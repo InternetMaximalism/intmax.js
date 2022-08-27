@@ -10,7 +10,6 @@ export class MerkleTree {
 
   constructor(leaves: Leaf[] = [], hashFn: HashFn) {
     this.validateLeaves(leaves);
-
     this.hashFn = hashFn;
 
     this.populateLeaves(leaves);
@@ -53,8 +52,8 @@ export class MerkleTree {
   }
 
   private validateLeaves(leaves: Leaf[]): void {
-    if (leaves.length < 1) {
-      throw new Error("You pass one leaf at least");
+    if (leaves.length < 2) {
+      throw new Error("You pass two leaves at least");
     }
 
     let n = leaves.length;

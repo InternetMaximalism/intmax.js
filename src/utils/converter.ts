@@ -3,7 +3,9 @@ import { crh } from "./crypto-hash";
 
 export type BufferString = Buffer | Buffer[] | string[] | string;
 
-export const toHex = async (value: Buffer | string): Promise<string> => {
+export const toHex = async (
+  value: Buffer | Uint8Array | string
+): Promise<string> => {
   if (typeof value === "string") {
     return value;
   }

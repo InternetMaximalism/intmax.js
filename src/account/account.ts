@@ -89,13 +89,10 @@ export class Account {
       accountData.privateKey,
       eddsa.babyJub.F.e(txHash)
     );
-    console.log(signature);
 
     const packedSignature: Uint8Array = eddsa.packSignature(signature);
-    console.log(packedSignature);
 
     const packedPublicKey = eddsa.babyJub.packPoint(accountData.publicKey);
-    console.log(packedPublicKey);
 
     return {
       transaction: {

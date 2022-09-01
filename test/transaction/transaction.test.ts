@@ -48,8 +48,8 @@ describe("Transaction", () => {
       public_key:
         "0x951e5c8e75ae0a5f934fc0489e8932b1a46be309fe2034afacfca2a868209018",
       signature:
-        "0x7c624d65cfe68ce09b881bb4ec03a92325ae7c4650943d65cc9b836a3ff8ea87" +
-        "1b5c24ca1714425da2b6bbfa12cb23d2ccf8fa066904c1caf75ec51e0a4d4a04",
+        "0x4cf7cd6e12b32771952032d3602a10d5456443f672ad43ec93872ee873293215" +
+        "a7d9dcffe08e76bf4e06cefb86338d9298913f52c581035d7f6bea6744823f00",
     };
     expect(signedTx).toEqual(result);
   });

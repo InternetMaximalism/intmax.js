@@ -11,7 +11,7 @@ export class Account {
   readonly web3: Web3Client;
   private _address: string | null;
   private _privateKey: Buffer | null;
-  private _publicKey: string | null;
+  private _publicKey: [Uint8Array, Uint8Array] | null;
 
   constructor(
     provider: ethers.providers.Web3Provider | ethers.providers.JsonRpcProvider
@@ -31,6 +31,7 @@ export class Account {
     const publicKey: [Uint8Array, Uint8Array] = eddsa.prvTopub(privateKey);
 
     this._privateKey = privateKey;
+    this._publicKey = publicKey;
 
     return await this.pubToAddress(publicKey);
   }
@@ -50,7 +51,7 @@ export class Account {
     };
   }
 
-  async sign(message: string): Promise<circomlibjs.Signature> {
+  async sign(message: string): Promise<string> {
     const privateKey = this.validateArg(this._privateKey);
 
     const eddsa = await crh.getEddsa();
@@ -60,15 +61,17 @@ export class Account {
 
     const signature = eddsa.signPoseidon(privateKey, msg);
 
-    return {
-      R8: await Promise.all(signature.R8.map(toHex)),
-      S: `0x${signature.S}`,
-    };
+    return "0x" + Buffer.from(eddsa.packSignature(signature)).toString("hex");
+
+    // return {
+    //   R8: await Promise.all(signature.R8.map(toHex)),
+    //   S: `0x${signature.S}`,
+    // };
   }
 
   // TODO: get nonce from api
-  getNonce(): number {
-    return 0x000001;
+  getNonce(): string {
+    return "0x0000000000000001";
   }
 
   // TODO: for NFT
@@ -76,16 +79,31 @@ export class Account {
     transaction: Transaction
   ): Promise<SignedTransaction> {
     const accountData = this.getAccountData();
-    const tx_hash = await transaction.getHashedTransaction(accountData);
-    const signature = await this.sign(tx_hash);
+    // const tx_hash = await transaction.getHashedTransaction();
+    // const signature = await this.sign(tx_hash);
+
+    const eddsa = await crh.getEddsa();
+    const txHash = await transaction.getHashedTransaction();
+
+    const signature = eddsa.signPoseidon(
+      accountData.privateKey,
+      eddsa.babyJub.F.e(txHash)
+    );
+
+    const packedSignature: Uint8Array = eddsa.packSignature(signature);
+
+    const packedPublicKey = eddsa.babyJub.packPoint(accountData.publicKey);
 
     return {
       transaction: {
         contract_address: transaction.data.to!,
         nonce: accountData.nonce,
+        function_signature: transaction.data.function_signature!,
+        calldata: transaction.data.calldata!,
       },
-      tx_hash,
-      signature,
+      tx_hash: txHash,
+      public_key: "0x" + Buffer.from(packedPublicKey).toString("hex"),
+      signature: "0x" + Buffer.from(packedSignature).toString("hex"),
     };
   }
 
@@ -96,9 +114,12 @@ export class Account {
     const hashedPublicKey: Uint8Array = poseidonHash(publicKey);
     const d = BigInt(poseidonHash.F.toString(hashedPublicKey)).toString(16);
 
-    this._publicKey = d.slice(-40);
+    this._address = Buffer.from(d, "hex")
+      .reverse()
+      .toString("hex")
+      .slice(0, 40);
 
-    return `0x${this._publicKey}`;
+    return `0x${this._address}`;
   }
 
   private validateArg<T>(arg: T | null): T {

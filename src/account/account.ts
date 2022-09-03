@@ -1,9 +1,8 @@
 import { ethers } from "ethers";
 import { Scalar } from "ffjavascript";
 import * as crypto from "crypto";
-import * as circomlibjs from "circomlibjs";
 import { Transaction } from "../transaction";
-import { crh, Web3Client, toHex } from "../utils";
+import { crh, Web3Client } from "../utils";
 import { AccountData, SignedTransaction } from "../interfaces";
 
 export class Account {
@@ -62,11 +61,6 @@ export class Account {
     const signature = eddsa.signPoseidon(privateKey, msg);
 
     return "0x" + Buffer.from(eddsa.packSignature(signature)).toString("hex");
-
-    // return {
-    //   R8: await Promise.all(signature.R8.map(toHex)),
-    //   S: `0x${signature.S}`,
-    // };
   }
 
   // TODO: get nonce from api
@@ -79,8 +73,6 @@ export class Account {
     transaction: Transaction
   ): Promise<SignedTransaction> {
     const accountData = this.getAccountData();
-    // const tx_hash = await transaction.getHashedTransaction();
-    // const signature = await this.sign(tx_hash);
 
     const eddsa = await crh.getEddsa();
     const txHash = await transaction.getHashedTransaction();

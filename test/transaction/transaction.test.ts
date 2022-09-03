@@ -28,14 +28,6 @@ describe("Transaction", () => {
 
     const signedTx = await account.getSignedTransaction(transaction);
 
-    // expect(signature).toEqual({
-    //   R8: [
-    //     "0x292cee004061862f29aa9f6c7676756162080b8fd25ced46d9986a71d9a1d7dd",
-    //     "0xc55c74a0d10df51a1c193a6dfaf4eafcb8a6738d6e5144f57773cf962cc4044",
-    //   ],
-    //   S: "0x1869277942496310060405198470715151722398093762142578141445812726747478551882",
-    // });
-
     const result: SignedTransaction = {
       transaction: {
         nonce: "0x0000000000000001",

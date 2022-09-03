@@ -1,5 +1,3 @@
-import * as circomlibjs from "circomlibjs";
-
 export interface TransactionData {
   from?: string;
   to?: string; // 20 bytes hex string with 0x-prefix

@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
-import { Account, crh, toHex } from "../../src";
 import { Scalar } from "ffjavascript";
+import { Account, crh, toHex } from "../../src";
 
 describe("Account", () => {
   const provider = new ethers.providers.JsonRpcProvider();
